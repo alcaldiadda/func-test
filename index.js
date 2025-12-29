@@ -16,4 +16,4 @@ export default async ({ req, res, log }) => {
     log({ listado });
   
   return res.json({ok: true });
-});
+};
