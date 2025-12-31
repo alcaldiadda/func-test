@@ -1,4 +1,4 @@
-import { Client, Databases } from "node-appwrite";
+import { Client, Databases, TablesDB } from "node-appwrite";
 
 // appwrite function
 
