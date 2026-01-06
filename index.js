@@ -10,7 +10,7 @@ export default async ({ req, res, log }) => {
 
   const tables = new TablesDB(client);
 
-  const tx = await tablesDB.createTransaction();
+  const tx = await tables.createTransaction();
 
   const deleteAllRows = await tables.deleteRows({
     databaseId: 'root',
@@ -18,7 +18,7 @@ export default async ({ req, res, log }) => {
     transactionId: tx.$id,
   });
 
-  await tablesDB.updateTransaction({
+  await tables.updateTransaction({
       transactionId: tx.$id,
       commit: true,
     });
