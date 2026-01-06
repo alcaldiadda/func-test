@@ -8,21 +8,21 @@ export default async ({ req, res, log }) => {
   client.setProject(Bun.env["APPWRITE_FUNCTION_PROJECT_ID"]);
   client.setKey(req.headers["x-appwrite-key"]);
 
-  const databases = new Databases(client);
   const tables = new TablesDB(client);
 
-  const listadoDocuments = await databases.listDocuments({
-    databaseId: "root",
-    collectionId: "time",
+  const tx = await tablesDB.createTransaction();
+
+  const deleteAllRows = await tables.deleteRows({
+    databaseId: 'root',
+    tableId: 'time',
+    transactionId: tx.$id,
   });
 
-  const listadoRows = await tables.listRows({
-    databaseId: "root",
-    tableId: "time",
-  });
+  await tablesDB.updateTransaction({
+      transactionId: tx.$id,
+      commit: true,
+    });
 
-  log({ listadoDocuments });
-  log({ listadoRows });
 
   return res.json({ ok: true });
 };
